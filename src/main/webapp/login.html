@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+</head>
+<body>
+   <div id="login" align="center">
+       <h1>用户登录页面</h1>
+       <table>
+           <tr>
+               <td>用户名:</td>
+               <td><input type="text"  v-model="entity.uname" placeholder="请输入用户名"></td>
+           </tr>
+           <tr>
+               <td>密码:</td>
+               <td><input type="text"  v-model="entity.password" placeholder="请输入密码"></td>
+           </tr>
+           <tr>
+               <td colspan="2" align="center"> <button @click="login">登录</button> </td>
+           </tr>
+           <tr>
+               <td><a href="register.html">注册</a> </td>
+               <td align="right"><a href="identity.html">忘记密码?</a></td>
+           </tr>
+       </table>
+
+   </div>
+   <script src="vuejs/vue.min.js"></script>
+   <script src="vuejs/axios-0.18.0.js"></script>
+<script>
+    new Vue({
+        el:"#login",
+        data:{
+            entity:{},
+        },
+        methods:{
+            login() {
+             let _this=this;
+                 if(_this.entity.uname!=null&&_this.entity.uname!=""){
+                     if(_this.entity.password!=""&&_this.entity.password!=null){
+                          //都不为空 判断用户登录
+                         axios.post("user/login.do",_this.entity).then(
+                             function (response) {
+                             if(response.data.success){
+                                 alert("登陆成功")
+                                 window.location.href="vueJs_user_address.html";
+                             }else{
+                                 alert(response.data.message);
+                             }
+                         })
+
+                     }else{
+                         alert("密码不能为空")
+                     }
+                 }else{
+                     alert("用户名不能为空")
+                 }
+            },
+        },
+    })
+</script>
+</body>
+</html>

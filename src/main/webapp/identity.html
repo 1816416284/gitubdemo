@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>身份验证</title>
+    <style>
+        .yanzheng{
+            width: 100px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+  <div id="regiest" align="center">
+      <h1>身份验证</h1>
+      <table>
+          <tr>
+              <td>邮箱地址:</td>
+              <td><input type="text" placeholder="请输入邮箱地址" v-model="entity.email"><br>
+          </tr>
+          <tr>
+              <td>手机号码:</td>
+              <td><input type="text" placeholder="请输入手机号码" id="tel" v-model="entity.tel"></td>
+          </tr>
+          <tr>
+              <td>请输入验证码:</td>
+              <td><input type="text" class="yanzheng" v-model="entity.ucode"><button @click="identityCode" ref="code" >{{Codetext}}</button></td>
+          </tr>
+          <tr align="center">
+              <td colspan="2"><button @click="identity">验证</button></td>
+          </tr>
+          <tr>
+              <td colspan="2" align="right"><a href="login.html">返回登录</a></td>
+          </tr>
+      </table>
+  </div>
+  <script src="vuejs/vue.min.js"></script>
+  <script src="vuejs/axios-0.18.0.js"></script>
+  <script src="vuejs/myvue/user_register.js"></script>
+</body>
+</html>

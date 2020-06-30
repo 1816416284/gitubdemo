@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <style>
+        .yanzheng{
+            width: 100px;
+            height: 20px;
+        }
+    </style>
+</head>
+<title>注册页面</title>
+<body>
+      <div align="center" id="regiest">
+          <h1>用户注册页面</h1>
+          <table>
+              <tr>
+                  <td>用户名:</td>
+                  <td> <input type="text" placeholder="请输入用户名" v-model="entity.uname"></td>
+              </tr>
+              <tr>
+                  <td>密码:</td>
+                  <td><input type="text" placeholder="请输入密码" v-model="entity.password" ><br>
+              </tr>
+              <tr>
+                  <td>邮箱地址:</td>
+                  <td><input type="text" placeholder="请输入邮箱地址" v-model="entity.email"><br>
+              </tr>
+              <tr>
+                  <td>手机号码:</td>
+                  <td><input type="text" placeholder="请输入手机号码" id="tel" v-model="entity.tel"></td>
+              </tr>
+              <tr>
+                  <td>请输入验证码:</td>
+                  <td><input type="text" class="yanzheng" v-model="entity.ucode"><button @click="getCode" id="getcode" ref="code" >{{Codetext}}</button></td>
+              </tr>
+              <tr align="center">
+                  <td colspan="2"><button @click="register">注册</button></td>
+              </tr>
+              <tr>
+                  <td colspan="2" align="right"><a href="login.html">返回登录</a></td>
+              </tr>
+          </table>
+
+
+
+      </div>
+
+  <script src="vuejs/vue.min.js"></script>
+  <script src="vuejs/axios-0.18.0.js"></script>
+  <script src="vuejs/myvue/user_register.js"></script>
+<!--<script>
+   这是纯js的验证码计时
+    var time = 120-1;
+
+    function getCode(e) {
+         let tel = $("#tel").val();
+         if(tel!=""&&tel!=null){
+             countdown(e);
+         }else{
+             alert("手机号码不能为空")
+         }
+
+    }
+    function countdown(e){ //this实例
+           e.setAttribute("onclick", ''); // 点击事件删除
+           e.disabled =true; //设置为不可编辑状态
+        var interval=setInterval(function () {
+            if (time == 0) {
+                //这里时设置当时间到0的时候重新设置点击事件，并且默认time修改为120
+                e.setAttribute("onclick","getcode(this)");
+                document.getElementById("getcode").innerText="获取验证码";
+                time = 120;
+                clearInterval(interval); //定时器停止
+            }else{
+                //这里是显示时间倒计时的时候点击不生效
+                // e.setAttribute("onclick", '');
+                document.getElementById("getcode").innerHTML="重新发送"+time;
+                time&#45;&#45;;
+            }
+        },1000)
+    }
+</script>-->
+</body>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--1.注解驱动  HandlerMapping  HandlerAdapter，还有一个关于异常的 -->
+    <!--在前台很容易出现中文乱码  fastjson有专门处理前台中文乱码的类 我们只需要在注解驱动配置就好了 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/json"/>
+                <property name="features">
+                    <array>
+                        <value>WriteMapNullValue</value>
+                        <value>WriteDateUseDateFormat</value>
+                        <!-- Controller层处理JSON数据会自动去掉重复数据,我们把他关掉避免发生错误,关掉自动去掉重复引用-->
+                        <value>DisableCircularReferenceDetect</value>
+                    </array>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--2.处理器 handler-->
+    <context:component-scan base-package="com.lening.controller,com.lening.utils"></context:component-scan>
+
+    <!--3.视图解析器 Spring-Mvc上下文，是jsp的-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="suffix" value=".html"></property>
+        <property name="prefix" value="/WEB-INF/view/"></property>
+    </bean>
+    <!--配置文件上传-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置上传文件的最大尺寸为5MB -->
+        <property name="maxUploadSize" value="5242880"/>    <!-- // 必要步骤*********************-->
+        <!-- 配置上传文件编码-->
+        <property name="defaultEncoding" value="UTF-8"/>
+
+
+
+
+    </bean>
+</beans>

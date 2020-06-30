@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lening.mapper.UserBeanMapper">
+    <resultMap id="BaseResultMap" type="com.lening.entity.UserBean">
+        <id column="id" property="id"/>
+        <result column="uname" property="uname"/>
+        <result column="uage" property="uage"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    uid, uname, uage
+  </sql>
+
+    <sql id="ConditionSql">
+        /**
+        * 多条件查询sql
+        */
+        <where>
+            <if test="uname != null">
+                and uname like '%${uname}%'
+            </if>
+            <if test="brithday != null">
+                and to_char(brithday,'yyyy-MM-dd') &gt;= #{brithday}
+            </if>
+            <if test="ebrithday != null">
+                and to_char(brithday,'yyyy-MM-dd') &lt;= #{ebrithday}
+            </if>
+        </where>
+    </sql>
+    <!--    insert into tb_user values(sq_0615user.nextval,'王五',20,to_date('2014-02-14','yyyy-mm-dd'),13233225548,'1816416284@qq.com',0,to_date('2014-02-14','yyyy-mm-dd'),'ucode','password',0)-->
+    <insert id="insertUser">
+        insert into tb_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="uname != null">
+                uname,
+            </if>
+            <if test="uage != null">
+                uage,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="brithday != null">
+                brithday,
+            </if>
+            <if test="tel != null">
+                tel,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="ucode != null">
+                ucode,
+            </if>
+            <if test="locktime != null">
+                locktime,
+            </if>
+            <if test="couerror != null">
+                couerror,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            sq_0615user.nextval,
+            <if test="uname != null">
+                #{uname},
+            </if>
+            <if test="uage != null">
+                #{uage},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="brithday != null">
+                to_date('${brithday}','yyyy-mm-dd'),
+            </if>
+            <if test="tel != null">
+                #{tel},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createtime != null">
+                to_date('${createtime}','yyyy-mm-dd'),
+            </if>
+            <if test="ucode != null">
+                #{ucode},
+            </if>
+            <if test="locktime != null">
+                #{locktime},
+            </if>
+            <if test="couerror != null">
+                #{couerror},
+            </if>
+        </trim>
+
+
+    </insert>
+
+    <update id="upaUser">
+        update tb_user
+        <set>
+            <if test="uname != null">
+                uname = #{uname},
+            </if>
+            <if test="uage != null">
+                uage = #{uage},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="brithday != null">
+                brithday = to_date('${brithday}','yyyy-mm-dd'),
+            </if>
+            <if test="tel != null">
+                tel = #{tel},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createtime != null">
+                createtime = to_date('${createtime}','yyyy-mm-dd'),
+            </if>
+            <if test="ucode != null">
+                ucode = #{ucode},
+            </if>
+            <if test="locktime != null">
+                locktime = #{locktime},
+            </if>
+            <if test="couerror != null">
+                couerror = #{couerror},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="findUserByTel" resultType="UserBean">
+        select * from tb_user where tel=#{tel}
+    </select>
+    <select id="selectUserByCode" resultType="UserBean">
+       select * from tb_user where ucode=#{code}
+  </select>
+    <select id="findUserByName" resultType="UserBean">
+        select * from tb_user where uname = #{uname}
+    </select>
+    <select id="findPageCon" resultType="UserBean">
+        select * from tb_user
+        <include refid="ConditionSql"/>
+    </select>
+    <select id="findPage" resultType="UserBean">
+        select * from (select t.*,rownum rn from tb_user t) where rn &gt;= #{pageNum} and rn &lt;= ${pageSize}
+    </select>
+    <select id="findAll" resultType="UserBean">
+       select * from tb_user
+  </select>
+    <select id="findAddressByUid" resultType="AddressBean">
+     select * from tb_address where id=#{id}
+   </select>
+    <select id="findCityByPid" resultType="CityBean">
+       select * from t_city where pid=#{pid}
+   </select>
+    <delete id="deleteAddressByUid">
+       delete from tb_address where id=#{id}
+   </delete>
+    <insert id="insertAddressUpa">
+         insert into tb_address(aid,aname,xname,id) VALUES(sq_0615address.nextval,#{aname},#{xname},#{id})
+    </insert>
+    <insert id="insertAddress">
+    insert into tb_address(aid,aname,xname,id) VALUES(sq_0615address.nextval,#{aname},#{xname},sq_0615user.currval)
+  </insert>
+    <select id="selectByPrimaryKey" resultType="UserBean">
+    select 
+    *
+    from tb_user
+    where id = #{uid,jdbcType=BIGINT}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_user
+    where id = #{uid,jdbcType=BIGINT}
+  </delete>
+    <insert id="insertSelective" parameterType="com.lening.entity.UserBean">
+        insert into tb_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="uname != null">
+                uname,
+            </if>
+            <if test="uage != null">
+                uage,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            sq_0615user.nextval,
+            <if test="uname != null">
+                #{uname,jdbcType=VARCHAR},
+            </if>
+            <if test="uage != null">
+                #{uage,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lening.entity.UserBean">
+        update tb_user
+        <set>
+            <if test="uname != null">
+                uname = #{uname,jdbcType=VARCHAR},
+            </if>
+            <if test="uage != null">
+                uage = #{uage,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>
